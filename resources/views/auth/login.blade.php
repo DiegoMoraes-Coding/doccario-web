@@ -2,10 +2,10 @@
 
 @section('content')
     <div class="container position-relative min-vh-100 d-flex align-items-center justify-content-center">
-        <div class="position-absolute top-0 end-0 p-3" style="z-index: 10;">
+        <div class="position-absolute top-0 end-0 p-3" style="z-index: 10;" data-aos="fade-left">
             @include('components.theme-toggle')
         </div>
-        <div class="card shadow-lg p-4" style="max-width: 400px; width: 100%;">
+        <div class="card shadow-lg p-4" style="max-width: 400px; width: 100%;" data-aos="fade-up">
             <div class="text-center mb-4">
                 <span class="mb-2 d-inline-flex align-items-center justify-content-center" style="height: 56px; width: 56px;">
                     <i class="ti ti-face-id" style="font-size: 64px;"></i>

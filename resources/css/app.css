@@ -1,3 +1,17 @@
 @import 'bootstrap/dist/css/bootstrap.min.css';
 @import '@tabler/core/dist/css/tabler.min.css';
 @import '@tabler/icons-webfont/dist/tabler-icons.min.css';
+@import 'aos/dist/aos.css';
+
+html,
+body,
+.card,
+.navbar,
+.dropdown-menu,
+.modal-content,
+.offcanvas,
+.list-group-item,
+.form-control,
+.btn {
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
