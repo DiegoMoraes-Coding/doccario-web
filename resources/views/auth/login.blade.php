@@ -16,13 +16,12 @@
                 @csrf
                 <div class="mb-3">
                     <label for="email" class="form-label">Email address</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com"
-                        required autofocus value="{{ old('email') }}">
+                    <input type="email" class="form-control" id="email" name="email" required autofocus
+                        value="{{ old('email') }}">
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Password"
-                        required>
+                    <input type="password" class="form-control" id="password" name="password" required>
                 </div>
                 <div class="mb-3 d-flex justify-content-between align-items-center">
                     <div class="form-check">
@@ -36,7 +35,6 @@
             <div class="text-center my-3">
                 <span class="text-muted">or sign in with</span>
             </div>
-            @include('components.auth-socials')
             <div class="text-center mt-3">
                 <span class="text-muted small">Don't have an account?</span>
                 <a href="{{ route('signup') }}" class="small">Sign up</a>

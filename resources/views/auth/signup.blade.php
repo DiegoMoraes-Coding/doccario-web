@@ -17,7 +17,7 @@
                 <div class="mb-3">
                     <label for="name" class="form-label">Full Name</label>
                     <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
-                        name="name" placeholder="John Doe" required autofocus value="{{ old('name') }}">
+                        name="name" required autofocus value="{{ old('name') }}">
                     @error('name')
                         <div class="invalid-feedback d-block">{{ $message }}</div>
                     @enderror
@@ -25,7 +25,7 @@
                 <div class="mb-3">
                     <label for="email" class="form-label">Email address</label>
                     <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
-                        name="email" placeholder="you@example.com" required value="{{ old('email') }}">
+                        name="email" required value="{{ old('email') }}">
                     @error('email')
                         <div class="invalid-feedback d-block">{{ $message }}</div>
                     @enderror
@@ -33,7 +33,7 @@
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
                     <input type="password" class="form-control @error('password') is-invalid @enderror" id="password"
-                        name="password" placeholder="Create a strong password" required>
+                        name="password" required>
                     @error('password')
                         <div class="invalid-feedback d-block">{{ $message }}</div>
                     @enderror
@@ -41,7 +41,7 @@
                 <div class="mb-3">
                     <label for="password_confirmation" class="form-label">Confirm Password</label>
                     <input type="password" class="form-control" id="password_confirmation" name="password_confirmation"
-                        placeholder="Confirm your password" required>
+                        required>
                 </div>
                 <div class="mb-3 form-check">
                     <input class="form-check-input" type="checkbox" id="remember" name="remember">
@@ -52,7 +52,6 @@
             <div class="text-center my-3">
                 <span class="text-muted">or sign up with</span>
             </div>
-            @include('components.auth-socials')
             <div class="text-center mt-3">
                 <span class="text-muted small">Already have an account?</span>
                 <a href="{{ route('login') }}" class="small">Sign in</a>
