@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Helpers\AuthHelper;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +21,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Share authenticated user data with all views
+        View::composer('*', function ($view) {
+            $view->with('authUser', AuthHelper::getAuthenticatedUser());
+        });
     }
 }
