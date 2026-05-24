@@ -18,6 +18,7 @@
 </head>
 
 <body>
+    @include('components.notifications')
     @yield('content')
 </body>
 

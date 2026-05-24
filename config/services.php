@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'doccario_api' => [
+        'url' => env('DOCCARIO_API_URL'),
+    ],
+
 ];
