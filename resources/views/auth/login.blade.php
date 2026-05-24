@@ -33,7 +33,7 @@
                     </div>
                     <a href="#" class="small text-decoration-none">Forgot password?</a>
                 </div>
-                <button type="submit" class="btn btn-primary w-100">Sign In</button>
+                <button type="submit" class="btn btn-primary w-100" x-loading-btn>Sign In</button>
             </form>
             <div class="text-center my-3">
                 <span class="text-muted">or sign in with</span>
