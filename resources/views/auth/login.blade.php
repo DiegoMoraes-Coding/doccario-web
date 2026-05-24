@@ -32,9 +32,6 @@
                 </div>
                 <button type="submit" class="btn btn-primary w-100" x-loading-btn>Sign In</button>
             </form>
-            <div class="text-center my-3">
-                <span class="text-muted">or sign in with</span>
-            </div>
             <div class="text-center mt-3">
                 <span class="text-muted small">Don't have an account?</span>
                 <a href="{{ route('signup') }}" class="small">Sign up</a>

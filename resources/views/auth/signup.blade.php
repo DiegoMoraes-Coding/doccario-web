@@ -43,15 +43,8 @@
                     <input type="password" class="form-control" id="password_confirmation" name="password_confirmation"
                         required>
                 </div>
-                <div class="mb-3 form-check">
-                    <input class="form-check-input" type="checkbox" id="remember" name="remember">
-                    <label class="form-check-label" for="remember">Remember me</label>
-                </div>
                 <button type="submit" class="btn btn-primary w-100" x-loading-btn>Create Account</button>
             </form>
-            <div class="text-center my-3">
-                <span class="text-muted">or sign up with</span>
-            </div>
             <div class="text-center mt-3">
                 <span class="text-muted small">Already have an account?</span>
                 <a href="{{ route('login') }}" class="small">Sign in</a>
