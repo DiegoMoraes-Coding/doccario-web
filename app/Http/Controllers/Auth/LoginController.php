@@ -35,7 +35,7 @@ class LoginController extends Controller
                 $secure = true;
                 $httpOnly = true;
                 $sameSite = 'Strict';
-                return redirect()->route('blank')
+                return redirect()->route('dashboard')
                     ->with('success', 'Login successful!')
                     ->cookie('doccario_token', $data['token'] ?? '', $minutes, $path, $domain, $secure, $httpOnly, false, $sameSite)
                     ->cookie('doccario_refresh_token', $data['refreshToken'] ?? '', $minutes, $path, $domain, $secure, $httpOnly, false, $sameSite)
@@ -47,7 +47,7 @@ class LoginController extends Controller
                     'refreshToken' => $data['refreshToken'] ?? null,
                     'user' => $data['user'] ?? null,
                 ]);
-                return redirect()->route('blank')->with('success', 'Login successful!');
+                return redirect()->route('dashboard')->with('success', 'Login successful!');
             }
         }
 
