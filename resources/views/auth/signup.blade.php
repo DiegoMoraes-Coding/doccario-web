@@ -2,9 +2,7 @@
 
 @section('content')
     <div class="container position-relative min-vh-100 d-flex align-items-center justify-content-center">
-        <div class="position-absolute top-0 end-0 p-3" style="z-index: 10;" data-aos="fade-left">
-            @include('components.theme-toggle')
-        </div>
+        @include('components.auth-topbar')
         <div class="card shadow-lg p-4" style="max-width: 400px; width: 100%;" data-aos="fade-up">
             <div class="text-center mb-4">
                 <span class="mb-2 d-inline-flex align-items-center justify-content-center" style="height: 56px; width: 56px;">
@@ -54,26 +52,7 @@
             <div class="text-center my-3">
                 <span class="text-muted">or sign up with</span>
             </div>
-            <div class="row g-2 mb-2">
-                <div class="col">
-                    <button type="button"
-                        class="btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center">
-                        <i class="ti ti-brand-google me-2"></i> Google
-                    </button>
-                </div>
-                <div class="col">
-                    <button type="button"
-                        class="btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center">
-                        <i class="ti ti-brand-apple me-2"></i> Apple
-                    </button>
-                </div>
-                <div class="col">
-                    <button type="button"
-                        class="btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center">
-                        <i class="ti ti-brand-github me-2"></i> GitHub
-                    </button>
-                </div>
-            </div>
+            @include('components.auth-socials')
             <div class="text-center mt-3">
                 <span class="text-muted small">Already have an account?</span>
                 <a href="{{ route('login') }}" class="small">Sign in</a>
