@@ -60,7 +60,7 @@
             </div>
             <div class="text-center mt-3">
                 <span class="text-muted small">Don't have an account?</span>
-                <a href="#" class="small">Sign up</a>
+                <a href="{{ route('signup') }}" class="small">Sign up</a>
             </div>
         </div>
     </div>
