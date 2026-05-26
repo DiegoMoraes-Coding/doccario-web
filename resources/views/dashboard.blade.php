@@ -5,9 +5,19 @@
         <!-- Dashboard Header: Welcome, Upload Document, Profile Dropdown -->
         <div class="d-flex flex-wrap align-items-center justify-content-between mb-4 gap-3">
             <div class="flex-grow-1">
-                <h1 class="fw-bold display-6 mb-1">Welcome back, <span
-                        class="text-primary">{{ $authUser['name'] ?? 'User' }}</span></h1>
-                <div class="text-muted fs-5">Your AI-powered document workspace</div>
+                <div class="d-flex align-items-center gap-3 mb-2" x-data="{ theme: (localStorage.getItem('theme') || (document.documentElement.classList.contains('theme-dark') ? 'dark' : 'light')) }">
+                    <span
+                        style="height:2.5em;width:2.5em;min-width:2.5em;max-width:2.5em;max-height:2.5em;display:flex;align-items:center;justify-content:center;font-size:2em;">
+                        <i class="ti ti-mood-smile-beam" style="font-size:2em;"></i>
+                    </span>
+                    @php
+                        $firstName = isset($authUser['name']) ? explode(' ', trim($authUser['name']))[0] : 'User';
+                    @endphp
+                    <h1 class="fw-bold display-6 mb-1 mb-0 d-inline-block align-middle"
+                        style="font-size:2.5em;line-height:1;">Welcome back, <span
+                            class="text-primary">{{ $firstName }}</span></h1>
+                </div>
+                <div class="text-muted fs-5">Doccario, Your AI-powered document workspace.</div>
             </div>
             <button class="btn btn-primary btn-lg px-4 d-flex align-items-center gap-2" x-loading-btn>
                 <i class="ti ti-plus"></i>

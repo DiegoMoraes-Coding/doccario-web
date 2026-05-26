@@ -30,10 +30,21 @@
                         <div class="invalid-feedback d-block">{{ $message }}</div>
                     @enderror
                 </div>
-                <div class="mb-3">
+                <div class="mb-3" x-data="{ password: '' }">
                     <label for="password" class="form-label">Password</label>
                     <input type="password" class="form-control @error('password') is-invalid @enderror" id="password"
-                        name="password" required>
+                        name="password" required x-model="password">
+                    <template x-if="password.length > 0">
+                        <div data-aos="fade-left">
+                            <div class="progress mt-2" style="height: 6px;">
+                                <div class="progress-bar" :class="window.passwordStrength(password).barClass"
+                                    role="progressbar"
+                                    :style="'width: ' + ((window.passwordStrength(password).score + 1) * 20) + '%'"
+                                    aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="small mt-1" x-text="window.passwordStrength(password).label"></div>
+                        </div>
+                    </template>
                     @error('password')
                         <div class="invalid-feedback d-block">{{ $message }}</div>
                     @enderror
