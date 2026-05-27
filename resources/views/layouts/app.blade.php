@@ -17,9 +17,14 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 </head>
 
-<body class="h-100 w-100">
+<body class="h-100 w-100 d-flex flex-column">
     @include('components.notifications')
-    @yield('content')
+    @if (!request()->routeIs('login') && !request()->routeIs('signup'))
+        @include('components.header')
+    @endif
+    <div class="flex-grow-1 d-flex flex-column">
+        @yield('content')
+    </div>
 </body>
 
 </html>

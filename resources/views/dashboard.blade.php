@@ -3,9 +3,9 @@
 @section('content')
     <div class="container-fluid py-4 px-4 px-md-4" data-aos="fade-up">
         <!-- Dashboard Header: Welcome, Upload Document, Profile Dropdown -->
-        <div class="d-flex flex-wrap align-items-center justify-content-between mb-4 gap-3">
-            <div class="flex-grow-1">
-                <div class="d-flex align-items-center gap-3 mb-2" x-data="{ theme: (localStorage.getItem('theme') || (document.documentElement.classList.contains('theme-dark') ? 'dark' : 'light')) }">
+        <div class="mb-4" x-data="{ theme: (localStorage.getItem('theme') || (document.documentElement.classList.contains('theme-dark') ? 'dark' : 'light')) }">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-2">
+                <div class="d-flex align-items-center gap-3">
                     <span
                         style="height:2.5em;width:2.5em;min-width:2.5em;max-width:2.5em;max-height:2.5em;display:flex;align-items:center;justify-content:center;font-size:2em;">
                         <i class="ti ti-mood-smile-beam" style="font-size:2em;"></i>
@@ -13,41 +13,12 @@
                     @php
                         $firstName = isset($authUser['name']) ? explode(' ', trim($authUser['name']))[0] : 'User';
                     @endphp
-                    <h1 class="fw-bold display-6 mb-1 mb-0 d-inline-block align-middle"
-                        style="font-size:2.5em;line-height:1;">Welcome back, <span
+                    <h1 class="fw-bold display-6 mb-0" style="font-size:2.5em;line-height:1;">Welcome back, <span
                             class="text-primary">{{ $firstName }}</span></h1>
                 </div>
-                <div class="text-muted fs-5">Doccario, Your AI-powered document workspace.</div>
+
             </div>
-            @include('components.upload-button', ['href' => route('chat'), 'text' => 'Upload Document'])
-            <div x-data="{ open: false }" class="position-relative ms-2">
-                <button x-on:click="open = !open" x-bind:aria-expanded="open" aria-haspopup="true"
-                    class="btn d-flex align-items-center gap-2">
-                    <span class="avatar bg-secondary-lt text-secondary"><i class="ti ti-user"></i></span>
-                    <span class="d-none d-md-inline">Profile</span>
-                    <i class="ti ti-chevron-down"></i>
-                </button>
-                <div x-show="open" x-on:click.away="open = false" x-transition
-                    class="dropdown-menu dropdown-menu-end show mt-2 shadow border-0 p-0"
-                    style="min-width: 220px; right: 0; left: auto;">
-                    <div class="px-3 py-2 border-bottom">
-                        <div class="fw-semibold">{{ $authUser['name'] ?? 'User' }}</div>
-                        <div class="text-muted small">{{ $authUser['email'] ?? 'user@email.com' }}</div>
-                    </div>
-                    <div class="px-3 py-2">
-                        @include('components.theme-toggle')
-                    </div>
-                    <div class="dropdown-divider m-0"></div>
-                    <form method="POST" action="{{ route('logout') }}" class="px-3 py-2">
-                        @csrf
-                        <button x-loading-btn type="submit"
-                            class="btn btn-outline-danger w-100 d-flex align-items-center gap-2">
-                            <i class="ti ti-logout"></i>
-                            <span>Logout</span>
-                        </button>
-                    </form>
-                </div>
-            </div>
+            <div class="text-muted fs-5">Doccario, Your AI-powered document workspace.</div>
         </div>
 
         <div class="row g-4 mb-3">
