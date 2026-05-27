@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container position-relative min-vh-100 d-flex align-items-center justify-content-center">
+    <div class="container position-relative h-100 d-flex align-items-center justify-content-center">
         @include('components.auth-topbar')
         <div class="card shadow-lg p-4" style="max-width: 400px; width: 100%;" data-aos="fade-up">
             <div class="text-center mb-4">

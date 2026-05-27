@@ -32,4 +32,8 @@ Route::middleware(ApiTokenValidator::class)->group(function () {
     })->name('dashboard');
 
     Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
+
+    Route::get('/chat', function () {
+        return view('chat');
+    })->name('chat');
 });

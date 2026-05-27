@@ -19,10 +19,7 @@
                 </div>
                 <div class="text-muted fs-5">Doccario, Your AI-powered document workspace.</div>
             </div>
-            <button class="btn btn-primary btn-lg px-4 d-flex align-items-center gap-2" x-loading-btn>
-                <i class="ti ti-plus"></i>
-                <span>Upload Document</span>
-            </button>
+            @include('components.upload-button', ['href' => route('chat'), 'text' => 'Upload Document'])
             <div x-data="{ open: false }" class="position-relative ms-2">
                 <button x-on:click="open = !open" x-bind:aria-expanded="open" aria-haspopup="true"
                     class="btn d-flex align-items-center gap-2">
@@ -43,7 +40,8 @@
                     <div class="dropdown-divider m-0"></div>
                     <form method="POST" action="{{ route('logout') }}" class="px-3 py-2">
                         @csrf
-                        <button type="submit" class="btn btn-outline-danger w-100 d-flex align-items-center gap-2">
+                        <button x-loading-btn type="submit"
+                            class="btn btn-outline-danger w-100 d-flex align-items-center gap-2">
                             <i class="ti ti-logout"></i>
                             <span>Logout</span>
                         </button>
@@ -65,7 +63,10 @@
                         <div class="fw-semibold fs-5 mb-2 text-center">No documents uploaded yet</div>
                         <div class="text-muted mb-3 text-center">Start by uploading your first document to see it listed
                             here.</div>
-                        <a href="#" class="btn btn-primary btn-lg"><i class="ti ti-plus me-1"></i> Upload Document</a>
+                        @include('components.upload-button', [
+                            'href' => route('chat'),
+                            'text' => 'Upload Document',
+                        ])
                     </div>
                 </div>
             </div>
