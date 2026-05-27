@@ -2,24 +2,7 @@
 
 @section('content')
     <div class="d-flex h-100 flex-column flex-md-row" x-data="{ messages: [], userInput: '', sidebarOpen: false }" data-aos="fade-left">
-        <!-- Sidebar: Offcanvas for mobile, visible for md+ -->
-        <div>
-            <!-- Offcanvas Sidebar for mobile -->
-            <div class="offcanvas offcanvas-start d-md-none" tabindex="-1" id="sidebarOffcanvas"
-                aria-labelledby="sidebarOffcanvasLabel">
-                <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="sidebarOffcanvasLabel">Menu</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                </div>
-                <div class="offcanvas-body p-0">
-                    @include('components.sidebar')
-                </div>
-            </div>
-            <!-- Static Sidebar for md+ -->
-            <div class="d-none d-md-flex h-100">
-                @include('components.sidebar')
-            </div>
-        </div>
+        @include('components.sidebar')
 
         <!-- Chat Main Area -->
         <div class="flex-grow-1 d-flex flex-column h-100 w-100" style="max-width: 900px; margin: 0 auto;">
