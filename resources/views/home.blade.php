@@ -42,14 +42,14 @@
                                                 {{ \Carbon\Carbon::parse($doc['createdAt'])->format('Y-m-d H:i') }}</div>
                                         </div>
                                         <a href="{{ route('chat', ['document' => $doc['id']]) }}"
-                                            class="btn btn-outline-primary btn-md flex-shrink-0 me-1">Open</a>
+                                            class="btn btn-outline-primary btn-md flex-shrink-0 me-1" x-loading-btn>Open</a>
                                         <form action="{{ route('documents.destroy', $doc['id']) }}" method="POST"
-                                            class="d-inline">
+                                            class="d-inline" x-data>
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-outline-secondary btn-md flex-shrink-0"
+                                            <button type="button" class="btn btn-outline-secondary btn-md flex-shrink-0"
                                                 title="Delete document"
-                                                onclick="return confirm('Are you sure you want to delete this document?');">
+                                                x-on:click="window.openConfirmModal('Are you sure you want to delete this document?', () => $el.closest('form').submit())">
                                                 <i class="ti ti-trash"></i>
                                             </button>
                                         </form>

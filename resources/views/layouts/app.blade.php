@@ -25,6 +25,7 @@
     <div class="flex-grow-1 d-flex flex-column">
         @yield('content')
     </div>
+    @include('components.confirm-modal')
 </body>
 
 </html>
