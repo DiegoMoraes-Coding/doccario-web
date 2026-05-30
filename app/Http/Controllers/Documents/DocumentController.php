@@ -25,7 +25,7 @@ class DocumentController extends Controller
             'documents' => $documents,
         ]);
     }
-    public function chat($fileId = null)
+    public function chat($conversationId = null)
     {
         $apiUrl = config('services.doccario_api.url') . '/documents';
         $documentName = 'Document';
@@ -34,8 +34,8 @@ class DocumentController extends Controller
             $response = ApiClient::request('GET', $apiUrl);
             $documents = $response->ok() ? $response->json() : [];
 
-            if ($fileId && !empty($documents)) {
-                $document = collect($documents)->firstWhere('id', $fileId);
+            if ($conversationId && !empty($documents)) {
+                $document = collect($documents)->firstWhere('conversationId', $conversationId);
                 if ($document) {
                     $documentName = $document['title'] ?? 'Document';
                 }
@@ -49,7 +49,7 @@ class DocumentController extends Controller
         return view('chat', [
             'documents' => $documents,
             'documentName' => $documentName,
-            'fileId' => $fileId,
+            'conversationId' => $conversationId,
         ]);
     }
     public function destroy($id)
@@ -85,13 +85,13 @@ class DocumentController extends Controller
 
             if ($response->ok()) {
                 $data = $response->json();
-                $fileId = $data['fileId'] ?? null;
+                $conversationId = $data['conversationId'] ?? null;
 
-                if ($fileId) {
-                    return redirect()->route('chat', ['fileId' => $fileId])
+                if ($conversationId) {
+                    return redirect()->route('chat', ['conversationId' => $conversationId])
                         ->with('success', 'Document uploaded successfully!');
                 } else {
-                    return back()->with('error', 'Upload failed: No file ID returned.');
+                    return back()->with('error', 'Upload failed: No conversation ID returned.');
                 }
             } else {
                 // Return API error message if available
