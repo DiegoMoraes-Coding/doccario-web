@@ -44,13 +44,18 @@
                                             class="btn btn-outline-primary btn-md flex-shrink-0" x-loading-btn
                                             style="min-width: 4em;">Open</a>
                                         <form action="{{ route('documents.destroy', $doc['id']) }}" method="POST"
-                                            class="d-inline" x-data>
+                                            class="d-inline" x-data="{ deleting: false }">
                                             @csrf
                                             @method('DELETE')
                                             <button type="button" class="btn btn-outline-secondary btn-md flex-shrink-0"
-                                                title="Delete document"
-                                                x-on:click="window.openConfirmModal('Are you sure you want to delete this document?', () => $el.closest('form').submit())">
-                                                <i class="ti ti-square-x fs-2"></i>
+                                                title="Delete document" x-bind:disabled="deleting" style="min-width: 4em"
+                                                x-on:click="window.openConfirmModal('Are you sure you want to delete this document?', () => { deleting = true; $el.closest('form').submit(); })">
+                                                <template x-if="!deleting">
+                                                    <i class="ti ti-square-x fs-2"></i>
+                                                </template>
+                                                <template x-if="deleting">
+                                                    <span class="spinner-border spinner-border-sm" role="status"></span>
+                                                </template>
                                             </button>
                                         </form>
                                     </li>
