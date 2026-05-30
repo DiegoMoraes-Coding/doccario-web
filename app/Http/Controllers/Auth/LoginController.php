@@ -51,6 +51,9 @@ class LoginController extends Controller
             }
         }
 
-        return back()->with('error', 'Invalid credentials or server error.');
+        // Return API error message if available
+        $apiError = $response->json();
+        $errorMessage = $apiError['error'] ?? 'Invalid credentials or server error.';
+        return back()->with('error', $errorMessage);
     }
 }

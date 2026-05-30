@@ -2,7 +2,6 @@
 
 @section('content')
     <div class="container-fluid py-3 px-3" style="max-width:1200px;" data-aos="fade-up">
-        <!-- Home Header: Welcome, Upload Document, Profile Dropdown -->
         <div class="mb-3" x-data="{ theme: (localStorage.getItem('theme') || (document.documentElement.classList.contains('theme-dark') ? 'dark' : 'light')) }">
             <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-1">
                 <div class="d-flex align-items-center gap-3">
@@ -42,7 +41,7 @@
                                                 {{ \Carbon\Carbon::parse($doc['createdAt'])->format('Y-m-d H:i') }}</div>
                                         </div>
                                         <a href="{{ route('chat', ['document' => $doc['id']]) }}"
-                                            class="btn btn-outline-primary btn-md flex-shrink-0 me-1" x-loading-btn>Open</a>
+                                            class="btn btn-outline-primary btn-md flex-shrink-0" x-loading-btn>Open</a>
                                         <form action="{{ route('documents.destroy', $doc['id']) }}" method="POST"
                                             class="d-inline" x-data>
                                             @csrf
@@ -50,7 +49,7 @@
                                             <button type="button" class="btn btn-outline-secondary btn-md flex-shrink-0"
                                                 title="Delete document"
                                                 x-on:click="window.openConfirmModal('Are you sure you want to delete this document?', () => $el.closest('form').submit())">
-                                                <i class="ti ti-trash"></i>
+                                                <i class="ti ti-square-x fs-2"></i>
                                             </button>
                                         </form>
                                     </li>
@@ -59,7 +58,7 @@
                         @else
                             <span class="avatar avatar-xl bg-primary-lt text-primary mb-2" style="font-size: 2.2rem;"><i
                                     class="ti ti-folder-open"></i></span>
-                            <div class="fw-semibold fs-6 mb-1 text-center">No documents uploaded yet</div>
+                            <div class="fw-semibold fs-3 mb-1 text-center">No documents uploaded yet</div>
                             <div class="text-muted mb-2 text-center">Start by uploading your first document to see it listed
                                 here.</div>
                         @endif

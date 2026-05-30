@@ -20,7 +20,7 @@
                     <div>
                         <h5 class="mb-0 fw-bold">Chat with AI</h5>
                         <small class="text-muted">
-                            <i class="ti ti-file-pdf"></i> <span id="doc-name">Sample.pdf</span>
+                            <i class="ti ti-file-pdf"></i> <span>{{ $documentName }}</span>
                         </small>
                     </div>
                 </div>
@@ -78,7 +78,7 @@
             <!-- Input Area -->
             <div class="border-top px-4 py-3 bg-body">
                 <form
-                    x-on:submit.prevent="if(userInput.trim()){ messages.push({role: 'user', text: userInput}); userInput=''; }"
+                    @submit.prevent="if(userInput.trim()){ messages.push({role: 'user', text: userInput}); userInput=''; }"
                     class="d-flex gap-2">
                     <input type="text" class="form-control form-control-lg" placeholder="Ask about your document..."
                         x-model="userInput" autocomplete="off">

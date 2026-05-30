@@ -32,6 +32,7 @@ Route::middleware(ApiTokenValidator::class)->group(function () {
 
     Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 
-    Route::get('/chat', [DocumentController::class, 'chat'])->name('chat');
+    Route::get('/chat/{fileId?}', [DocumentController::class, 'chat'])->name('chat');
+    Route::post('/documents/upload', [DocumentController::class, 'upload'])->name('documents.upload');
     Route::delete('/documents/{id}', [DocumentController::class, 'destroy'])->name('documents.destroy');
 });

@@ -30,6 +30,9 @@ class SignupController extends Controller
                 ->with('success', 'Account created successfully! Please log in to your account.');
         }
 
-        return back()->with('error', 'Signup failed. Please try again or use a different email.')->withInput();
+        // Return API error message if available
+        $apiError = $response->json();
+        $errorMessage = $apiError['error'] ?? 'Signup failed. Please try again or use a different email.';
+        return back()->with('error', $errorMessage)->withInput();
     }
 }
