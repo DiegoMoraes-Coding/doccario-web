@@ -14,7 +14,8 @@
                         data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas" aria-controls="sidebarOffcanvas">
                         <i class="ti ti-menu-2"></i>
                     </button>
-                    <a href="{{ route('home') }}" class="btn btn-icon btn-ghost-primary d-none d-md-inline-block">
+                    <a href="{{ route('home') }}" class="btn btn-icon btn-ghost-primary d-none d-md-inline-block"
+                        x-loading-btn>
                         <i class="ti ti-arrow-left"></i>
                     </a>
                     <div>

@@ -40,8 +40,9 @@
                                             <div class="text-muted small">Uploaded:
                                                 {{ \Carbon\Carbon::parse($doc['createdAt'])->format('Y-m-d H:i') }}</div>
                                         </div>
-                                        <a href="{{ route('chat', ['document' => $doc['id']]) }}"
-                                            class="btn btn-outline-primary btn-md flex-shrink-0" x-loading-btn>Open</a>
+                                        <a href="{{ route('chat', ['fileId' => $doc['id']]) }}"
+                                            class="btn btn-outline-primary btn-md flex-shrink-0" x-loading-btn
+                                            style="min-width: 4em;">Open</a>
                                         <form action="{{ route('documents.destroy', $doc['id']) }}" method="POST"
                                             class="d-inline" x-data>
                                             @csrf

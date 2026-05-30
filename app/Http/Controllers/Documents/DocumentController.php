@@ -37,10 +37,10 @@ class DocumentController extends Controller
             if ($fileId && !empty($documents)) {
                 $document = collect($documents)->firstWhere('id', $fileId);
                 if ($document) {
-                    $documentName = $document['name'] ?? 'Document';
+                    $documentName = $document['title'] ?? 'Document';
                 }
             } elseif (!empty($documents)) {
-                $documentName = $documents[0]['name'] ?? 'Document';
+                $documentName = $documents[0]['title'] ?? 'Document';
             }
         } catch (\Exception $e) {
             $documents = [];
@@ -79,9 +79,9 @@ class DocumentController extends Controller
                 $pending = $pending->withToken($token);
             }
 
-            $response = $pending->post($apiUrl, [
-                'file' => fopen($file->getPathname(), 'r'),
-            ]);
+            $response = $pending
+                ->attach('file', file_get_contents($file->getPathname()), $file->getClientOriginalName())
+                ->post($apiUrl);
 
             if ($response->ok()) {
                 $data = $response->json();
