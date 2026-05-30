@@ -6,10 +6,11 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\SignupController;
 use App\Helpers\AuthHelper;
 use App\Http\Middleware\ApiTokenValidator;
+use App\Http\Controllers\Documents\DocumentController;
 
 Route::get('/', function () {
     if (AuthHelper::hasValidToken(request())) {
-        return redirect()->route('dashboard');
+        return redirect()->route('home');
     }
     return view('auth.login');
 })->name('login');
@@ -27,13 +28,10 @@ Route::get('/signup', function () {
 Route::post('/signup', [SignupController::class, 'signup']);
 
 Route::middleware(ApiTokenValidator::class)->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/home', [DocumentController::class, 'index'])->name('home');
 
     Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 
-    Route::get('/chat', function () {
-        return view('chat');
-    })->name('chat');
+    Route::get('/chat', [DocumentController::class, 'chat'])->name('chat');
+    Route::delete('/documents/{id}', [DocumentController::class, 'destroy'])->name('documents.destroy');
 });

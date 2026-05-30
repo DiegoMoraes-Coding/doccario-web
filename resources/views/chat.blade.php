@@ -5,7 +5,7 @@
         @include('components.sidebar')
 
         <!-- Chat Main Area -->
-        <div class="flex-grow-1 d-flex flex-column h-100 w-100" style="max-width: 900px; margin: 0 auto;">
+        <div class="flex-grow-1 d-flex flex-column h-100 w-100" style="margin: 0 auto;">
             <!-- Chat Header -->
             <div class="border-bottom px-3 px-md-4 py-3 bg-body d-flex align-items-center justify-content-between">
                 <div class="d-flex align-items-center gap-3 flex-grow-1">
@@ -14,7 +14,7 @@
                         data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas" aria-controls="sidebarOffcanvas">
                         <i class="ti ti-menu-2"></i>
                     </button>
-                    <a href="{{ route('dashboard') }}" class="btn btn-icon btn-ghost-primary d-none d-md-inline-block">
+                    <a href="{{ route('home') }}" class="btn btn-icon btn-ghost-primary d-none d-md-inline-block">
                         <i class="ti ti-arrow-left"></i>
                     </a>
                     <div>
@@ -32,15 +32,17 @@
             </div>
 
             <!-- Messages Container -->
-            <div class="flex-grow-1 overflow-y-auto px-4 py-4" style="background: var(--tblr-bg-surface);">
+            <div class="flex-grow-1 overflow-y-auto px-4 py-4 " style="background: var(--tblr-bg-surface);">
                 <!-- Welcome State -->
                 <template x-if="messages.length === 0">
-                    <div class="d-flex flex-column align-items-center justify-content-center h-100 text-center py-5">
+                    <div class="d-flex flex-column align-items-center justify-content-center h-100 text-center py-5 mx-auto w-100"
+                        style="max-width: 900px;">
                         <div class="avatar avatar-xl bg-primary-lt text-primary mb-3">
                             <i class="ti ti-message-circle" style="font-size: 2rem;"></i>
                         </div>
                         <h4 class="fw-bold mb-2">Start Chatting</h4>
-                        <p class="text-muted mb-4 w-50">Ask questions about your document and get instant answers powered by
+                        <p class="text-muted mb-4 w-50">Ask questions about your document and get instant answers
+                            powered by
                             AI.
                             Start by typing your message below.</p>
                         <div class="d-flex gap-2 flex-wrap justify-content-center">

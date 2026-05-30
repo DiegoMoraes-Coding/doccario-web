@@ -23,7 +23,7 @@
         <div class="dropdown-divider m-0"></div>
         <form method="POST" action="{{ route('logout') }}" class="px-3 py-2">
             @csrf
-            <button type="submit" class="btn btn-outline-danger w-100 d-flex align-items-center gap-2">
+            <button type="submit" class="btn btn-outline-danger w-100 d-flex align-items-center gap-2" x-loading-btn>
                 <i class="ti ti-logout"></i>
                 <span>Logout</span>
             </button>

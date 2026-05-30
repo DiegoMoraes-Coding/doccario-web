@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
+use App\Helpers\ApiClient;
 
 class SignupController extends Controller
 {
@@ -23,7 +23,7 @@ class SignupController extends Controller
             'password' => $request->input('password'),
         ];
 
-        $response = Http::post($apiUrl, $payload);
+        $response = ApiClient::request('POST', $apiUrl, $payload);
 
         if ($response->successful()) {
             return redirect()->route('login')

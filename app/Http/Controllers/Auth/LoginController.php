@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
+use App\Helpers\ApiClient;
 use Illuminate\Support\Facades\Redirect;
 
 class LoginController extends Controller
@@ -22,7 +22,7 @@ class LoginController extends Controller
             'password' => $request->input('password'),
         ];
 
-        $response = Http::post($apiUrl, $payload);
+        $response = ApiClient::request('POST', $apiUrl, $payload);
 
         if ($response->successful()) {
             $data = $response->json();
@@ -35,7 +35,7 @@ class LoginController extends Controller
                 $secure = true;
                 $httpOnly = true;
                 $sameSite = 'Strict';
-                return redirect()->route('dashboard')
+                return redirect()->route('home')
                     ->with('success', 'Login successful!')
                     ->cookie('doccario_token', $data['token'] ?? '', $minutes, $path, $domain, $secure, $httpOnly, false, $sameSite)
                     ->cookie('doccario_refresh_token', $data['refreshToken'] ?? '', $minutes, $path, $domain, $secure, $httpOnly, false, $sameSite)
@@ -47,7 +47,7 @@ class LoginController extends Controller
                     'refreshToken' => $data['refreshToken'] ?? null,
                     'user' => $data['user'] ?? null,
                 ]);
-                return redirect()->route('dashboard')->with('success', 'Login successful!');
+                return redirect()->route('home')->with('success', 'Login successful!');
             }
         }
 
