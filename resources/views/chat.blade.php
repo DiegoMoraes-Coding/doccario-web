@@ -25,11 +25,6 @@
                         </small>
                     </div>
                 </div>
-                <div class="d-flex gap-2">
-                    <button class="btn btn-icon btn-ghost-secondary">
-                        <i class="ti ti-dots-vertical"></i>
-                    </button>
-                </div>
             </div>
 
             <!-- Messages Container -->

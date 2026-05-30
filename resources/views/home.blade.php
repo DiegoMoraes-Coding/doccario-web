@@ -42,7 +42,7 @@
                                         </div>
                                         <a href="{{ route('chat', ['fileId' => $doc['id']]) }}"
                                             class="btn btn-outline-primary btn-md flex-shrink-0" x-loading-btn
-                                            style="min-width: 4em;">Open</a>
+                                            style="min-width: 5em;">Open</a>
                                         <form action="{{ route('documents.destroy', $doc['id']) }}" method="POST"
                                             class="d-inline" x-data="{ deleting: false }">
                                             @csrf
