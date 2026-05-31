@@ -15,14 +15,28 @@ class DocumentController extends Controller
     public function index(Request $request)
     {
         $apiUrl = config('services.doccario_api.url') . '/documents';
+        $documents = [];
+        $documentCount = 0;
+        $maxDocumentsAllowed = 0;
+        $usagePercentage = 0;
+
         try {
             $response = ApiClient::request('GET', $apiUrl);
-            $documents = $response->ok() ? $response->json() : [];
+            if ($response->ok()) {
+                $data = $response->json();
+                $documents = $data['documents'] ?? [];
+                $documentCount = $data['count'] ?? 0;
+                $maxDocumentsAllowed = $data['maxDocumentsAllowed'] ?? 0;
+                $usagePercentage = $data['usagePercentage'] ?? 0;
+            }
         } catch (\Exception $e) {
             $documents = [];
         }
         return view('home', [
             'documents' => $documents,
+            'documentCount' => $documentCount,
+            'maxDocumentsAllowed' => $maxDocumentsAllowed,
+            'usagePercentage' => $usagePercentage,
         ]);
     }
     public function destroy($id)

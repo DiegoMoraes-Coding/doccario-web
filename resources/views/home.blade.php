@@ -19,11 +19,41 @@
         <div class="row g-3 mb-2">
             <div class="col-12">
                 <div class="card shadow-sm h-100" style="min-height:180px;">
-                    <div class="card-header d-flex align-items-center justify-content-between py-2">
-                        <span class="fw-semibold fs-4">Recent Documents</span>
+                    <div class="card-header border-bottom">
+                        <span class="fw-semibold fs-4 mb-0">My Documents</span>
                     </div>
                     <div class="card-body d-flex flex-column align-items-center justify-content-center"
                         style="min-height: 160px; width: 100%;">
+                        <!-- Usage Info Insight -->
+                        <div class="w-100 mb-3">
+                            <div class="d-flex align-items-center justify-content-between gap-2 mb-1">
+                                <span class="d-flex align-items-center gap-1 small text-muted">
+                                    <i class="ti ti-database"></i>
+                                    <span title="You can upload up to {{ $maxDocumentsAllowed }} documents">Usage</span>
+                                </span>
+                                <div class="d-flex justify-content-between mt-1 small text-muted">
+                                    <span>
+                                        @if ($usagePercentage >= 100)
+                                            <i class="ti ti-alert-triangle text-danger"></i> Storage full
+                                        @elseif($usagePercentage >= 80)
+                                            <i class="ti ti-alert-circle text-warning"></i> Almost full
+                                        @else
+                                            <i class="ti ti-check text-success"></i> Plenty of space
+                                        @endif
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="progressbg border rounded">
+                                <div class="progress progressbg-progress">
+                                    <div class="progress-bar bg-primary-lt" role="progressbar"
+                                        style="width: {{ $usagePercentage }}%" aria-valuenow="{{ $usagePercentage }}"
+                                        aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <div class="progressbg-text">{{ $documentCount }} of {{ $maxDocumentsAllowed }} uploaded
+                                </div>
+                                <div class="progressbg-value">{{ $usagePercentage }}%</div>
+                            </div>
+                        </div>
                         @if (!empty($documents) && count($documents) > 0)
                             <ul class="list-group w-100 mb-2">
                                 @foreach ($documents as $doc)
@@ -62,11 +92,15 @@
                                 @endforeach
                             </ul>
                         @else
-                            <span class="avatar avatar-xl bg-primary-lt text-primary mb-2" style="font-size: 2.2rem;"><i
-                                    class="ti ti-folder-open"></i></span>
-                            <div class="fw-semibold fs-3 mb-1 text-center">No documents uploaded yet</div>
-                            <div class="text-muted mb-2 text-center">Start by uploading your first document to see it listed
-                                here.</div>
+                            <div class="card border shadow-sm w-100 mb-2">
+                                <div class="card-body d-flex flex-column align-items-center justify-content-center py-4">
+                                    <span class="avatar avatar-xl bg-primary-lt text-primary mb-2"
+                                        style="font-size: 2.2rem;"><i class="ti ti-folder-open"></i></span>
+                                    <div class="fw-semibold fs-3 mb-1 text-center">No documents uploaded yet</div>
+                                    <div class="text-muted mb-2 text-center">Start by uploading your first document to see
+                                        it listed here.</div>
+                                </div>
+                            </div>
                         @endif
                         <div class="d-flex justify-content-center mt-2">
                             @include('components.upload-button', [

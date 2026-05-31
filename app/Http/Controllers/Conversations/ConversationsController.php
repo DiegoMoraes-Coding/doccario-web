@@ -43,10 +43,20 @@ class ConversationsController extends Controller
         $apiUrl = config('services.doccario_api.url') . '/documents';
         $documentName = 'Document';
         $conversationData = null;
+        $documents = [];
+        $documentCount = 0;
+        $maxDocumentsAllowed = 0;
+        $usagePercentage = 0;
 
         try {
             $response = ApiClient::request('GET', $apiUrl);
-            $documents = $response->ok() ? $response->json() : [];
+            if ($response->ok()) {
+                $data = $response->json();
+                $documents = $data['documents'] ?? [];
+                $documentCount = $data['count'] ?? 0;
+                $maxDocumentsAllowed = $data['maxDocumentsAllowed'] ?? 0;
+                $usagePercentage = $data['usagePercentage'] ?? 0;
+            }
 
             if ($conversationId && !empty($documents)) {
                 $document = collect($documents)->firstWhere('conversationId', $conversationId);
@@ -75,6 +85,9 @@ class ConversationsController extends Controller
             'documentName' => $documentName,
             'conversationId' => $conversationId,
             'conversationData' => $conversationData,
+            'documentCount' => $documentCount,
+            'maxDocumentsAllowed' => $maxDocumentsAllowed,
+            'usagePercentage' => $usagePercentage,
         ]);
     }
 
