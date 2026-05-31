@@ -3,7 +3,7 @@
 @section('content')
     <div class="container position-relative h-100 d-flex align-items-center justify-content-center">
         @include('components.auth-topbar')
-        <div class="card shadow-lg p-4" style="max-width: 400px; width: 100%;" data-aos="fade-up">
+        <div class="card shadow-sm p-4" style="max-width: 400px; width: 100%;" data-aos="fade-up">
             <div class="text-center mb-4">
                 <span class="mb-2 d-inline-flex align-items-center justify-content-center" style="height: 56px; width: 56px;">
                     <i class="ti ti-face-id" style="font-size: 64px;"></i>

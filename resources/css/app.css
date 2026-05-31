@@ -19,3 +19,7 @@ body,
 [x-cloak] {
     display: none !important;
 }
+
+:root {
+    --tblr-primary: #845ef7;
+}
