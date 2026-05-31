@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\SignupController;
 use App\Helpers\AuthHelper;
 use App\Http\Middleware\ApiTokenValidator;
 use App\Http\Controllers\Documents\DocumentController;
+use App\Http\Controllers\Conversations\ConversationsController;
 
 Route::get('/', function () {
     if (AuthHelper::hasValidToken(request())) {
@@ -32,7 +33,10 @@ Route::middleware(ApiTokenValidator::class)->group(function () {
 
     Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 
-    Route::get('/chat/{conversationId?}', [DocumentController::class, 'chat'])->name('chat');
+    Route::get('/chat/{conversationId?}', [ConversationsController::class, 'chat'])->name('chat');
     Route::post('/documents/upload', [DocumentController::class, 'upload'])->name('documents.upload');
     Route::delete('/documents/{id}', [DocumentController::class, 'destroy'])->name('documents.destroy');
+
+    Route::get('/conversations/{conversationId}', [ConversationsController::class, 'show'])->name('conversations.show');
+    Route::post('/conversations/{conversationId}/ask', [ConversationsController::class, 'ask'])->name('conversations.ask');
 });

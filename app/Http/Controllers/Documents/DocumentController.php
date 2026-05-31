@@ -25,33 +25,6 @@ class DocumentController extends Controller
             'documents' => $documents,
         ]);
     }
-    public function chat($conversationId = null)
-    {
-        $apiUrl = config('services.doccario_api.url') . '/documents';
-        $documentName = 'Document';
-
-        try {
-            $response = ApiClient::request('GET', $apiUrl);
-            $documents = $response->ok() ? $response->json() : [];
-
-            if ($conversationId && !empty($documents)) {
-                $document = collect($documents)->firstWhere('conversationId', $conversationId);
-                if ($document) {
-                    $documentName = $document['title'] ?? 'Document';
-                }
-            } elseif (!empty($documents)) {
-                $documentName = $documents[0]['title'] ?? 'Document';
-            }
-        } catch (\Exception $e) {
-            $documents = [];
-        }
-
-        return view('chat', [
-            'documents' => $documents,
-            'documentName' => $documentName,
-            'conversationId' => $conversationId,
-        ]);
-    }
     public function destroy($id)
     {
         $apiUrl = config('services.doccario_api.url') . '/documents/' . $id;

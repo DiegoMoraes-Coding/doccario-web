@@ -23,7 +23,7 @@
     @if (!request()->routeIs('login') && !request()->routeIs('signup'))
         @include('components.header')
     @endif
-    <div class="flex-grow-1 d-flex flex-column">
+    <div class="flex-grow-1 d-flex flex-column overflow-hidden">
         @yield('content')
     </div>
     @include('components.confirm-modal')
