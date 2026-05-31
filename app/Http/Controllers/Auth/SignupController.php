@@ -16,14 +16,14 @@ class SignupController extends Controller
             'password' => 'required|min:8|confirmed',
         ]);
 
-        $apiUrl = config('services.doccario_api.url') . '/auth/signup';
+        $route = '/auth/signup';
         $payload = [
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => $request->input('password'),
         ];
 
-        $response = ApiClient::request('POST', $apiUrl, $payload);
+        $response = ApiClient::request('POST', $route, $payload);
 
         if ($response->successful()) {
             return redirect()->route('login')

@@ -12,20 +12,23 @@ class ApiClient
      * Make an API request with automatic token refresh.
      *
      * @param string $method HTTP method (GET, POST, etc)
-     * @param string $url Full API URL
-     * @param array $options ['headers' => [], 'json' => [], ...]
+     * @param string $route API route, e.g. '/documents', '/conversations/{id}'
+     * @param array $data Request data (optional)
      * @return \Illuminate\Http\Client\Response
      * @throws \Exception
      */
-    public static function request(string $method, string $url, array $data = [])
+    public static function request(string $method, string $route, array $data = [])
     {
+        $baseUrl = rtrim(config('services.doccario_api.url'), '/');
+        $url = $baseUrl . (str_starts_with($route, '/') ? $route : ('/' . $route));
+
         $token = Session::get('token') ?? Cookie::get('doccario_token');
         $refreshToken = Session::get('refreshToken') ?? Cookie::get('doccario_refresh_token');
 
         $response = self::makeRequest($method, $url, $data, $token);
 
         if ($response->status() === 401 && $refreshToken) {
-            $refreshUrl = config('services.doccario_api.url') . '/auth/refresh';
+            $refreshUrl = $baseUrl . '/auth/refresh';
             $refreshResp = Http::asJson()->post($refreshUrl, ['refreshToken' => $refreshToken]);
 
             if ($refreshResp->ok()) {

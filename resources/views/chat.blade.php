@@ -25,6 +25,17 @@
                         </small>
                     </div>
                 </div>
+                <div>
+                    <form id="resetChatForm" action="{{ route('chat.clean', ['conversationId' => $conversationId]) }}"
+                        method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-outline-danger btn-sm" title="Reset conversation"
+                            x-on:click.prevent="resetChat()">
+                            <i class="ti ti-refresh"></i> Reset
+                        </button>
+                    </form>
+                </div>
             </div>
 
             <!-- Messages Container -->
@@ -146,6 +157,7 @@
 
     <script>
         function chatComponent() {
+            const conversationId = @json($conversationId ?? '');
             return {
                 messages: @json(
                     $conversationData
@@ -163,7 +175,29 @@
                         if (el) el.scrollTop = el.scrollHeight;
                     });
                 },
-                sendMessage() {
+                sendMessage() {},
+                resetChat() {
+                    if (this.loading) return;
+                    if (!confirm('Are you sure you want to reset this conversation?')) return;
+                    this.loading = true;
+                    fetch(`/conversations/${conversationId}/clean`, {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').getAttribute('content'),
+                            },
+                        })
+                        .then(res => {
+                            this.loading = false;
+                            if (res.ok) {
+                                window.location.reload();
+                            } else {
+                                alert('Failed to reset conversation.');
+                            }
+                        })
+                        .catch(() => {
+                            this.loading = false;
+                            alert('Failed to reset conversation.');
+                        });
                     if (!this.userInput.trim() || this.loading) return;
                     const question = this.userInput.trim();
                     this.messages.push({

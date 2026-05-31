@@ -16,13 +16,13 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
 
-        $apiUrl = config('services.doccario_api.url') . '/auth/login';
+        $route = '/auth/login';
         $payload = [
             'email' => $request->input('email'),
             'password' => $request->input('password'),
         ];
 
-        $response = ApiClient::request('POST', $apiUrl, $payload);
+        $response = ApiClient::request('POST', $route, $payload);
 
         if ($response->successful()) {
             $data = $response->json();

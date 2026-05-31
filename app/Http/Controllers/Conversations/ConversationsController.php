@@ -13,19 +13,9 @@ class ConversationsController extends Controller
 {
     public function show($conversationId)
     {
-        $apiUrl = rtrim(config('services.doccario_api.url'), '/') . "/conversations/{$conversationId}";
-        $token = Session::get('token') ?? Cookie::get('doccario_token');
-
-        $headers = [
-            'Accept' => 'application/json',
-        ];
-        if ($token) {
-            $headers['Authorization'] = 'Bearer ' . $token;
-        }
-
+        $route = "/conversations/{$conversationId}";
         try {
-            $response = Http::withHeaders($headers)->get($apiUrl);
-
+            $response = ApiClient::request('GET', $route);
             if ($response->ok()) {
                 return response()->json($response->json(), 200);
             } else {
@@ -38,9 +28,26 @@ class ConversationsController extends Controller
         }
     }
 
+    public function clean($conversationId)
+    {
+        $route = "/conversations/{$conversationId}/clean";
+        try {
+            $response = ApiClient::request('DELETE', $route);
+            if ($response->ok()) {
+                return response()->json(['success' => true], 200);
+            } else {
+                $error = $response->json();
+                $errorMessage = $error['error'] ?? 'Failed to reset conversation.';
+                return response()->json(['error' => $errorMessage], $response->status());
+            }
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error resetting conversation: ' . $e->getMessage()], 500);
+        }
+    }
+
     public function chat($conversationId = null)
     {
-        $apiUrl = config('services.doccario_api.url') . '/documents';
+        $route = '/documents';
         $documentName = 'Document';
         $conversationData = null;
         $documents = [];
@@ -49,7 +56,7 @@ class ConversationsController extends Controller
         $usagePercentage = 0;
 
         try {
-            $response = ApiClient::request('GET', $apiUrl);
+            $response = ApiClient::request('GET', $route);
             if ($response->ok()) {
                 $data = $response->json();
                 $documents = $data['documents'] ?? [];
@@ -65,13 +72,8 @@ class ConversationsController extends Controller
                 }
 
                 // Fetch conversation data including messages
-                $conversationApiUrl = config('services.doccario_api.url') . "/conversations/{$conversationId}";
-                $token = Session::get('token') ?? Cookie::get('doccario_token');
-                $headers = [];
-                if ($token) {
-                    $headers['Authorization'] = 'Bearer ' . $token;
-                }
-                $conversationResponse = Http::withHeaders($headers)->get($conversationApiUrl);
+                $conversationRoute = "/conversations/{$conversationId}";
+                $conversationResponse = ApiClient::request('GET', $conversationRoute);
                 $conversationData = $conversationResponse->ok() ? $conversationResponse->json() : null;
             } elseif (!empty($documents)) {
                 $documentName = $documents[0]['title'] ?? 'Document';
@@ -93,28 +95,30 @@ class ConversationsController extends Controller
 
     public function ask(Request $request, $conversationId)
     {
-        $apiUrl = rtrim(config('services.doccario_api.url'), '/') . "/conversations/{$conversationId}/ask";
-        $token = Session::get('token') ?? Cookie::get('doccario_token');
+        $route = "/conversations/{$conversationId}/ask";
 
         $question = $request->input('question');
         if (!$question) {
             return response()->json(['error' => 'No question provided.'], 400);
         }
 
-        $headers = [
-            'Accept' => 'text/event-stream',
-            'Content-Type' => 'application/json',
-        ];
-        if ($token) {
-            $headers['Authorization'] = 'Bearer ' . $token;
-        }
-
-        $client = new \GuzzleHttp\Client([
-            'stream' => true,
-            'timeout' => 120,
-        ]);
-
         try {
+            ApiClient::request('GET', '/documents');
+
+            $token = Session::get('token') ?? Cookie::get('doccario_token');
+            $headers = [
+                'Accept' => 'text/event-stream',
+                'Content-Type' => 'application/json',
+            ];
+            if ($token) {
+                $headers['Authorization'] = 'Bearer ' . $token;
+            }
+
+            $client = new \GuzzleHttp\Client([
+                'stream' => true,
+                'timeout' => 120,
+            ]);
+
             $apiResponse = $client->post($apiUrl, [
                 'headers' => $headers,
                 'json' => ['question' => $question],

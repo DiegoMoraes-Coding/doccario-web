@@ -14,14 +14,14 @@ class DocumentController extends Controller
 {
     public function index(Request $request)
     {
-        $apiUrl = config('services.doccario_api.url') . '/documents';
+        $route = '/documents';
         $documents = [];
         $documentCount = 0;
         $maxDocumentsAllowed = 0;
         $usagePercentage = 0;
 
         try {
-            $response = ApiClient::request('GET', $apiUrl);
+            $response = ApiClient::request('GET', $route);
             if ($response->ok()) {
                 $data = $response->json();
                 $documents = $data['documents'] ?? [];
@@ -41,9 +41,9 @@ class DocumentController extends Controller
     }
     public function destroy($id)
     {
-        $apiUrl = config('services.doccario_api.url') . '/documents/' . $id;
+        $route = '/documents/' . $id;
         try {
-            $response = ApiClient::request('DELETE', $apiUrl);
+            $response = ApiClient::request('DELETE', $route);
         } catch (\Exception $e) {
             // Optionally handle error
         }
