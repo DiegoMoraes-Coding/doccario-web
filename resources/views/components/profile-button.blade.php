@@ -2,7 +2,7 @@
 <div x-cloak x-data="{ open: false, direction: '{{ $direction }}' }" class="position-relative w-100" style="z-index: 1040;">
     <button x-on:click="open = !open" x-bind:aria-expanded="open" aria-haspopup="true"
         class="btn d-flex align-items-center gap-2 w-100">
-        <span class="avatar bg-secondary-lt text-secondary"><i class="ti ti-user"></i></span>
+        <span class="avatar bg-secondary-lt text-secondary fs-2"><i class="ti ti-user-circle"></i></span>
         <span class="d-none d-md-inline">Profile</span>
         <i class="ti ti-chevron-down" x-show="direction === 'down'"></i>
         <i class="ti ti-chevron-up" x-show="direction === 'up'"></i>

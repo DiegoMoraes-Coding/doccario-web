@@ -88,7 +88,7 @@
                                     <div class="d-flex align-items-end gap-2"
                                         :class="msg.role === 'user' ? 'flex-row-reverse' : ''">
                                         <div class="avatar avatar-sm">
-                                            <i :class="msg.role === 'user' ? 'ti ti-mood-smile' : 'ti ti-robot-face'"
+                                            <i :class="msg.role === 'user' ? 'ti ti-user' : 'ti ti-robot-face'"
                                                 style="font-size: 0.875rem; min-width: 2.5em"></i>
                                         </div>
                                         <div class="p-4 rounded fs-3 fw-medium lh-lg"
