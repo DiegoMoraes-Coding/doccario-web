@@ -92,7 +92,7 @@
                                 @endforeach
                             </ul>
                         @else
-                            <div class="card border shadow-sm w-100 mb-2">
+                            <div class="card border w-100 mb-2">
                                 <div class="card-body d-flex flex-column align-items-center justify-content-center py-4">
                                     <span class="avatar avatar-xl bg-primary-lt text-primary mb-2"
                                         style="font-size: 2.2rem;"><i class="ti ti-folder-open"></i></span>
