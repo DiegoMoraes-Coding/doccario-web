@@ -46,9 +46,13 @@
                                     AI.
                                     Start by typing your message below.</p>
                                 <div class="d-flex gap-2 flex-wrap justify-content-center">
-                                    <button class="btn btn-outline-primary btn-sm">What's in this doc?</button>
-                                    <button class="btn btn-outline-primary btn-sm">Summarize</button>
-                                    <button class="btn btn-outline-primary btn-sm">Find key points</button>
+                                    <button class="btn btn-outline-primary btn-sm" type="button"
+                                        x-on:click="userInput = `What's in this doc?`; sendMessage()">What's in this
+                                        doc?</button>
+                                    <button class="btn btn-outline-primary btn-sm" type="button"
+                                        x-on:click="userInput = 'Summarize'; sendMessage()">Summarize</button>
+                                    <button class="btn btn-outline-primary btn-sm" type="button"
+                                        x-on:click="userInput = 'Find key points'; sendMessage()">Find key points</button>
                                 </div>
                             </div>
                         </template>
