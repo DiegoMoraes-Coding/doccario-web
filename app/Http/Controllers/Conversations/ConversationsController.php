@@ -33,15 +33,20 @@ class ConversationsController extends Controller
         $route = "/conversations/{$conversationId}/clean";
         try {
             $response = ApiClient::request('DELETE', $route);
-            if ($response->ok()) {
-                return response()->json(['success' => true], 200);
+            if ($response->successful()) {
+                return redirect()->route('chat', ['conversationId' => $conversationId])
+                    ->with('success', 'Chat reset successfully.');
             } else {
-                $error = $response->json();
-                $errorMessage = $error['error'] ?? 'Failed to reset conversation.';
-                return response()->json(['error' => $errorMessage], $response->status());
+                $error = $response->getBody() && $response->header('Content-Type') && str_contains($response->header('Content-Type'), 'application/json')
+                    ? $response->json()
+                    : [];
+                $errorMessage = $error['error'] ?? 'Failed to reset chat.';
+                return redirect()->route('chat', ['conversationId' => $conversationId])
+                    ->with('error', $errorMessage);
             }
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error resetting conversation: ' . $e->getMessage()], 500);
+            return redirect()->route('chat', ['conversationId' => $conversationId])
+                ->with('error', 'Error resetting chat: ' . $e->getMessage());
         }
     }
 
@@ -113,6 +118,9 @@ class ConversationsController extends Controller
             if ($token) {
                 $headers['Authorization'] = 'Bearer ' . $token;
             }
+
+            $baseUrl = rtrim(config('services.doccario_api.url'), '/');
+            $apiUrl = $baseUrl . "/conversations/{$conversationId}/ask";
 
             $client = new \GuzzleHttp\Client([
                 'stream' => true,

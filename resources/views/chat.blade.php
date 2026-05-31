@@ -25,17 +25,29 @@
                         </small>
                     </div>
                 </div>
-                <div>
-                    <form id="resetChatForm" action="{{ route('chat.clean', ['conversationId' => $conversationId]) }}"
-                        method="POST" style="display:inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-outline-danger btn-sm" title="Reset conversation"
-                            x-on:click.prevent="resetChat()">
-                            <i class="ti ti-refresh"></i> Reset
-                        </button>
-                    </form>
-                </div>
+                <template x-if="messages.length > 0">
+                    <div data-aos="fade-left">
+                        <form method="POST" action="{{ route('chat.clean', ['conversationId' => $conversationId]) }}"
+                            @submit.prevent="
+                                if (!loading) {
+                                    openConfirmModal('Are you sure you want to reset this conversation? All messages will be lost.', () => { loading = true; $el.submit(); });
+                                }
+                            "
+                            x-data="{ loading: false }" style="display: inline">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-bg-secondary btn-sm fs-3" :disabled="loading"
+                                title="Reset conversation">
+                                <template x-if="!loading">
+                                    <i class="ti ti-restore"></i>
+                                </template>
+                                <template x-if="loading">
+                                    <span class="spinner-border spinner-border-sm align-middle" role="status"></span>
+                                </template>
+                            </button>
+                        </form>
+                    </div>
+                </template>
             </div>
 
             <!-- Messages Container -->
@@ -95,7 +107,6 @@
                                                     </div>
                                                 </div>
                                             </template>
-                                            <!-- Show normal text once streaming starts or is complete -->
                                             <template x-if="msg.text">
                                                 <p class="mb-0" x-text="msg.text"></p>
                                             </template>
@@ -175,29 +186,7 @@
                         if (el) el.scrollTop = el.scrollHeight;
                     });
                 },
-                sendMessage() {},
-                resetChat() {
-                    if (this.loading) return;
-                    if (!confirm('Are you sure you want to reset this conversation?')) return;
-                    this.loading = true;
-                    fetch(`/conversations/${conversationId}/clean`, {
-                            method: 'DELETE',
-                            headers: {
-                                'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').getAttribute('content'),
-                            },
-                        })
-                        .then(res => {
-                            this.loading = false;
-                            if (res.ok) {
-                                window.location.reload();
-                            } else {
-                                alert('Failed to reset conversation.');
-                            }
-                        })
-                        .catch(() => {
-                            this.loading = false;
-                            alert('Failed to reset conversation.');
-                        });
+                sendMessage() {
                     if (!this.userInput.trim() || this.loading) return;
                     const question = this.userInput.trim();
                     this.messages.push({
@@ -213,8 +202,7 @@
                         text: ''
                     });
                     this.scrollToBottom();
-                    const conversationId = @json($conversationId ?? '');
-                    fetch(`/conversations/${conversationId}/ask`, {
+                    fetch(`/chat/${conversationId}/ask`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -241,7 +229,7 @@
                                 stream: true
                             });
                             let lines = buffer.split('\n');
-                            buffer = lines.pop(); // last line may be incomplete
+                            buffer = lines.pop();
                             for (const line of lines) {
                                 if (!line.startsWith('data:')) continue;
                                 const data = line.slice(5).trim();

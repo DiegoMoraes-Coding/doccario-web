@@ -38,6 +38,6 @@ Route::middleware(ApiTokenValidator::class)->group(function () {
     Route::post('/documents/upload', [DocumentController::class, 'upload'])->name('documents.upload');
     Route::delete('/documents/{id}', [DocumentController::class, 'destroy'])->name('documents.destroy');
 
-    Route::get('/conversations/{conversationId}', [ConversationsController::class, 'show'])->name('conversations.show');
-    Route::post('/conversations/{conversationId}/ask', [ConversationsController::class, 'ask'])->name('conversations.ask');
+    Route::get('/chat/{conversationId}', [ConversationsController::class, 'show'])->name('chat.show');
+    Route::post('/chat/{conversationId}/ask', [ConversationsController::class, 'ask'])->name('chat.ask');
 });
