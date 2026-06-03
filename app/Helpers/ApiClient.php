@@ -25,11 +25,32 @@ class ApiClient
         $token = Session::get('token') ?? Cookie::get('doccario_token');
         $refreshToken = Session::get('refreshToken') ?? Cookie::get('doccario_refresh_token');
 
-        $response = self::makeRequest($method, $url, $data, $token);
+        try {
+            $response = self::makeRequest($method, $url, $data, $token);
+        } catch (\Throwable $e) {
+            // API unreachable — clear auth state and signal service unavailable
+            Session::forget(['token', 'refreshToken', 'user']);
+            Cookie::queue(Cookie::forget('doccario_token'));
+            Cookie::queue(Cookie::forget('doccario_refresh_token'));
+            Cookie::queue(Cookie::forget('doccario_user'));
+
+            // Use Laravel's default 503 handling/view
+            abort(503);
+        }
 
         if ($response->status() === 401 && $refreshToken) {
             $refreshUrl = $baseUrl . '/auth/refresh';
-            $refreshResp = Http::asJson()->post($refreshUrl, ['refreshToken' => $refreshToken]);
+            try {
+                $refreshResp = Http::asJson()->post($refreshUrl, ['refreshToken' => $refreshToken]);
+            } catch (\Throwable $e) {
+                Session::forget(['token', 'refreshToken', 'user']);
+                Cookie::queue(Cookie::forget('doccario_token'));
+                Cookie::queue(Cookie::forget('doccario_refresh_token'));
+                Cookie::queue(Cookie::forget('doccario_user'));
+
+                // Use Laravel's default 503 handling/view
+                abort(503);
+            }
 
             if ($refreshResp->ok()) {
                 $refreshData = $refreshResp->json();
