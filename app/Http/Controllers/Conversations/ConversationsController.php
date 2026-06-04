@@ -149,8 +149,31 @@ class ConversationsController extends Controller
                 'X-Accel-Buffering' => 'no',
             ]);
         } catch (\Exception $e) {
-            return response()->stream(function () use ($e) {
-                echo "data: {\"error\":\"" . addslashes($e->getMessage()) . "\"}\n";
+            $errorMessage = $e->getMessage();
+
+            if ($e instanceof \GuzzleHttp\Exception\RequestException || $e instanceof \GuzzleHttp\Exception\BadResponseException) {
+                try {
+                    if (method_exists($e, 'hasResponse') && $e->hasResponse()) {
+                        $resp = $e->getResponse();
+                        $body = (string) $resp->getBody();
+                        if (!empty($body)) {
+                            $decoded = json_decode($body, true);
+                            if (json_last_error() === JSON_ERROR_NONE) {
+                                $errorMessage = $decoded['detail'] ?? $decoded['error'] ?? $decoded['message'] ?? $errorMessage;
+                            } else {
+                                // Non-JSON body, use raw body
+                                $errorMessage = $body;
+                            }
+                        }
+                    }
+                } catch (\Exception $inner) {
+                    // fallback to original message
+                    $errorMessage = $errorMessage;
+                }
+            }
+
+            return response()->stream(function () use ($errorMessage) {
+                echo "data: {\"error\":\"" . addslashes($errorMessage) . "\"}\n";
                 echo "data: [DONE]\n";
                 @ob_flush();
                 flush();

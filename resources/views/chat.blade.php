@@ -88,11 +88,15 @@
                                     <div class="d-flex align-items-end gap-2"
                                         :class="msg.role === 'user' ? 'flex-row-reverse' : ''">
                                         <div class="avatar avatar-sm">
-                                            <i :class="msg.role === 'user' ? 'ti ti-user' : 'ti ti-robot-face'"
+                                            <i :class="msg.role === 'user' ? 'ti ti-user' : (msg.role === 'error' ?
+                                                'ti ti-alert-circle' : 'ti ti-robot-face')"
                                                 style="font-size: 0.875rem; min-width: 2.5em"></i>
                                         </div>
                                         <div class="p-4 rounded fs-3 fw-medium lh-lg"
-                                            :class="msg.role === 'user' ? 'bg-body-tertiary' : ' '">
+                                            :class="{
+                                                'bg-body-tertiary': msg.role === 'user',
+                                                'bg-danger-lt text-danger border border-danger': msg.role === 'error'
+                                            }">
                                             <!-- Show thinking indicator for assistant while streaming -->
                                             <template x-if="msg.role === 'assistant' && !msg.text && loading">
                                                 <div class="d-flex gap-2 align-items-center">
@@ -241,7 +245,11 @@
                                 try {
                                     const json = JSON.parse(data);
                                     if (json.error) {
-                                        this.messages[idx].text = '[Error] ' + json.error;
+                                        this.messages[idx].role = 'error';
+                                        this.messages[idx].text = json.error;
+                                        this.messages[idx] = {
+                                            ...this.messages[idx]
+                                        };
                                         this.loading = false;
                                     } else if (json.content) {
                                         this.messages[idx].text += json.content;
@@ -259,7 +267,8 @@
                         };
                         return reader.read().then(processChunk);
                     }).catch(err => {
-                        this.messages[idx].text = '[Error] ' + (err.message || 'Unknown error');
+                        this.messages[idx].role = 'error';
+                        this.messages[idx].text = err.message || 'Unknown error';
                         this.messages[idx] = {
                             ...this.messages[idx]
                         };
