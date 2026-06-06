@@ -20,7 +20,7 @@
         <ul class="list-group list-group-flush">
             @foreach ($documents as $doc)
                 <li
-                    class="list-group-item px-3 py-2 border-0 rounded{{ ($conversationId ?? null) === $doc['conversationId'] ? ' bg-body-secondary' : '' }}">
+                    class="list-group-item px-3 py-2 border-0 rounded{{ ($conversationId ?? null) === $doc['conversationId'] ? ' bg-body-tertiary' : '' }}">
                     <a href="{{ route('chat', ['conversationId' => $doc['conversationId']]) }}"
                         class="d-flex align-items-center gap-2 text-decoration-none text-body">
                         <span class="avatar bg-primary-lt text-primary flex-shrink-0"
