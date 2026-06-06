@@ -9,9 +9,8 @@ RUN npm run build
 # Stage 2: Main PHP/Nginx Runtime
 FROM php:8.3-fpm-alpine
 
-# Install system dependencies & PHP extensions
-RUN apk add --no-cache unzip nginx supervisor libpq-dev \
-    && docker-php-ext-install pdo pdo_pgsql
+# Stripped out the unnecessary database drivers since it is a decoupled frontend
+RUN apk add --no-cache unzip nginx supervisor
 
 # Install Composer securely
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -25,8 +24,9 @@ COPY --from=asset-builder /app/public/build ./public/build
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Set up correct permissions for Laravel directories
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+# FIX: Explicitly grant Read/Write/Execute permissions (775) AND user ownership
+RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache \
+    && chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Expose the default port Render looks for
 EXPOSE 80
