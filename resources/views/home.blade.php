@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container-fluid py-3 px-3" style="max-width:1200px;" data-aos="fade-up">
+    <div class="container-fluid py-3 px-3 overflow-y-auto overflow-x-hidden" style="max-width:1200px;" data-aos="fade-up">
         <div class="mb-3" x-data="{ theme: (localStorage.getItem('theme') || (document.documentElement.classList.contains('theme-dark') ? 'dark' : 'light')) }">
             <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-1">
                 <div class="d-flex align-items-center gap-3">
