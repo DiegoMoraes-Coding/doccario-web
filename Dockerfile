@@ -9,29 +9,24 @@ RUN npm run build
 # Stage 2: Main PHP/Nginx Runtime
 FROM php:8.3-fpm-alpine
 
-# Stripped out the unnecessary database drivers since it is a decoupled frontend
 RUN apk add --no-cache unzip nginx supervisor
 
-# Install Composer securely
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 COPY . .
 
-# Copy the compiled JS/CSS assets from Stage 1
 COPY --from=asset-builder /app/public/build ./public/build
 
-# Install PHP dependencies
+# Install PHP dependencies smoothly without baking a permanent configuration cache
 RUN composer install --no-dev --optimize-autoloader
 
-# FIX: Explicitly grant Read/Write/Execute permissions (775) AND user ownership
+# Ensure permissions are wide open for real-time file writing
 RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache \
     && chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Expose the default port Render looks for
 EXPOSE 80
 
-# Configure a minimalist inline Nginx server to handle public routing
 RUN echo 'server { \
     listen 80; \
     root /var/www/html/public; \
@@ -48,5 +43,4 @@ RUN echo 'server { \
     } \
 }' > /etc/nginx/http.d/default.conf
 
-# Start PHP-FPM and Nginx simultaneously
 CMD php-fpm -D && nginx -g "daemon off;"
