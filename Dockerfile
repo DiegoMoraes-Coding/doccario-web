@@ -27,6 +27,7 @@ RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache \
 
 EXPOSE 80
 
+# Configure an inline Nginx server with expanded header buffers to prevent 502 cookie drops
 RUN echo 'server { \
     listen 80; \
     root /var/www/html/public; \
@@ -40,6 +41,11 @@ RUN echo 'server { \
         include fastcgi_params; \
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name; \
         fastcgi_param PATH_INFO $fastcgi_path_info; \
+        \
+        # FIX: Widen Nginx pipes for large encrypted auth cookies \
+        fastcgi_buffers 16 16k; \
+        fastcgi_buffer_size 32k; \
+        fastcgi_busy_buffers_size 32k; \
     } \
 }' > /etc/nginx/http.d/default.conf
 
