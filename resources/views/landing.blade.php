@@ -55,7 +55,7 @@
 
     <main class="px-3 py-0">
         {{-- Hero --}}
-        <section class="py-5 bg-body">
+        <section class="py-5 bg-body" data-aos="fade-down">
             <div class="container-xl py-lg-4">
                 <div class="row align-items-center g-4 g-lg-5">
                     <div class="col-lg-6 text-center text-lg-start">
@@ -168,7 +168,7 @@
         </section>
 
         {{-- Use cases --}}
-        <section class="py-4 border-top border-bottom bg-body-tertiary rounded">
+        <section class="py-4 border-top border-bottom bg-body-tertiary rounded" data-aos="fade-left">
             <div class="container-xl">
                 <p class="text-center text-muted small text-uppercase mb-4">
                     Built for anyone working with PDFs
@@ -191,7 +191,7 @@
         </section>
 
         {{-- Features --}}
-        <section id="features" class="py-5">
+        <section id="features" class="py-5" data-aos="fade-right">
             <div class="container-xl">
                 <div class="text-center mb-5">
                     <span class="badge bg-primary-lt text-primary mb-3">Platform capabilities</span>
@@ -294,7 +294,7 @@
         </section>
 
         {{-- How it works --}}
-        <section id="how-it-works" class="py-5 bg-body-tertiary border-top rounded">
+        <section id="how-it-works" class="py-5 bg-body-tertiary border-top rounded" data-aos="fade-left">
             <div class="container-xl">
                 <div class="row align-items-center g-5">
                     <div class="col-lg-5">
@@ -330,7 +330,7 @@
         </section>
 
         {{-- Security & Early access --}}
-        <section id="security" class="py-5">
+        <section id="security" class="py-5" data-aos="fade-right">
             <div class="container-xl">
                 <div class="row g-4 align-items-stretch">
                     <div class="col-lg-6">
@@ -387,7 +387,7 @@
         </section>
 
         {{-- Bottom CTA --}}
-        <section class="py-5">
+        <section class="py-5" data-aos="fade-left">
             <div class="container-xl">
                 <div class="card bg-primary-lt border-primary rounded-3 shadow-sm">
                     <div class="card-body p-4 p-lg-5 text-center">
