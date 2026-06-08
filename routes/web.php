@@ -4,17 +4,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\SignupController;
-use App\Helpers\AuthHelper;
 use App\Http\Middleware\ApiTokenValidator;
 use App\Http\Controllers\Documents\DocumentController;
 use App\Http\Controllers\Conversations\ConversationsController;
+use App\Http\Controllers\LandingController;
 
-Route::get('/', function () {
-    if (AuthHelper::hasValidToken(request())) {
-        return redirect()->route('home');
-    }
-    return view('auth.login');
-})->name('login');
+Route::get('/', [LandingController::class, 'index'])->name('landing');
 
 Route::get('/login', function () {
     return view('auth.login');
