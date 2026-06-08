@@ -172,6 +172,12 @@ docker run -p 8080:80 \
 
 ### Light mode
 
+**Landing** — Presentation Page
+
+<p align="center">
+  <img src="docs/screenshots/themes/light/landing.jpeg" alt="Doccario landing page" width="100%">
+</p>
+
 **Home** — document upload, usage tracking, and onboarding
 
 <p align="center">
@@ -197,6 +203,12 @@ docker run -p 8080:80 \
 <details>
 <summary><strong>View dark mode screenshots</strong></summary>
 <br>
+
+**Landing** — 
+
+<p align="center">
+  <img src="docs/screenshots/themes/dark/landing.jpeg" alt="Doccario landing page in dark mode" width="100%">
+</p>
 
 **Home**
 
