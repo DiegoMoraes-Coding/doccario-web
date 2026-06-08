@@ -84,7 +84,7 @@
                         <template x-for="(msg, idx) in messages" :key="idx">
                             <div class="mb-3 d-flex"
                                 :class="msg.role === 'user' ? 'justify-content-end' : 'justify-content-start'">
-                                <div style="max-width: 75%;">
+                                <div style="max-width: 95%;">
                                     <div class="d-flex align-items-end gap-2"
                                         :class="msg.role === 'user' ? 'flex-row-reverse' : ''">
                                         <div class="avatar avatar-sm">
