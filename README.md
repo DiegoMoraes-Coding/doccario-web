@@ -1,13 +1,11 @@
 # Doccario Web
 
-<p align="center">
-  <img src="https://img.shields.io/badge/PHP-8.2-777BB4?logo=php&amp;logoColor=white" alt="PHP 8.2">
-  <img src="https://img.shields.io/badge/Laravel-12-FF2D20?logo=laravel&amp;logoColor=white" alt="Laravel 12">
-  <img src="https://img.shields.io/badge/Alpine.js-3-77C1D5?logo=alpinedotjs&amp;logoColor=white" alt="Alpine.js 3">
-  <img src="https://img.shields.io/badge/Bootstrap-5.3-7952B3?logo=bootstrap&amp;logoColor=white" alt="Bootstrap 5.3">
-  <img src="https://img.shields.io/badge/Vite-7-646CFF?logo=vite&amp;logoColor=white" alt="Vite 7">
-  <img src="https://img.shields.io/badge/Docker-enabled-2496ED?logo=docker&amp;logoColor=white" alt="Docker">
-</p>
+![PHP](https://img.shields.io/badge/PHP-8.2-777BB4?logo=php&logoColor=white)
+![Laravel](https://img.shields.io/badge/Laravel-12-FF2D20?logo=laravel&logoColor=white)
+![Alpine.js](https://img.shields.io/badge/Alpine.js-3-77C1D5?logo=alpinedotjs&logoColor=white)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-7952B3?logo=bootstrap&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-7-646CFF?logo=vite&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-enabled-2496ED?logo=docker&logoColor=white)
 
 **An AI-powered document workspace — modern SaaS frontend built with Laravel.**
 
