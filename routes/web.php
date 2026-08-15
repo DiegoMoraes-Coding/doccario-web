@@ -8,8 +8,11 @@ use App\Http\Middleware\ApiTokenValidator;
 use App\Http\Controllers\Documents\DocumentController;
 use App\Http\Controllers\Conversations\ConversationsController;
 use App\Http\Controllers\LandingController;
+use App\Http\Controllers\ApiWarmupController;
 
 Route::get('/', [LandingController::class, 'index'])->name('landing');
+
+Route::get('/api/warmup', ApiWarmupController::class)->name('api.warmup');
 
 Route::get('/login', function () {
     return view('auth.login');

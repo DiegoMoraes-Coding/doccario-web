@@ -199,14 +199,14 @@
                     });
                     this.userInput = '';
                     this.loading = true;
-                    // Add assistant message placeholder
                     const idx = this.messages.length;
                     this.messages.push({
                         role: 'assistant',
                         text: ''
                     });
                     this.scrollToBottom();
-                    fetch(`/chat/${conversationId}/ask`, {
+
+                    const runChat = () => fetch(`/chat/${conversationId}/ask`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -267,6 +267,20 @@
                         };
                         return reader.read().then(processChunk);
                     }).catch(err => {
+                        this.messages[idx].role = 'error';
+                        this.messages[idx].text = err.message || 'Unknown error';
+                        this.messages[idx] = {
+                            ...this.messages[idx]
+                        };
+                        this.loading = false;
+                        this.scrollToBottom();
+                    });
+
+                    const startChat = window.ensureApiAwake
+                        ? window.ensureApiAwake().then(runChat)
+                        : runChat();
+
+                    startChat.catch(err => {
                         this.messages[idx].role = 'error';
                         this.messages[idx].text = err.message || 'Unknown error';
                         this.messages[idx] = {

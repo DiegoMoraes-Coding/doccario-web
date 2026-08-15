@@ -18,7 +18,8 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 </head>
 
-<body class="h-100 w-100 d-flex flex-column overflow-x-hidden">
+<body class="h-100 w-100 d-flex flex-column overflow-x-hidden" data-warm-api="true">
+    @include('components.api-wakeup-overlay')
     @include('components.notifications')
     @if (!request()->routeIs('login') && !request()->routeIs('signup'))
         @include('components.header')

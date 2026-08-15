@@ -37,6 +37,11 @@ return [
 
     'doccario_api' => [
         'url' => env('DOCCARIO_API_URL'),
+        'warmup_max_attempts' => env('DOCCARIO_API_WARMUP_MAX_ATTEMPTS', 15),
+        'warmup_retry_seconds' => env('DOCCARIO_API_WARMUP_RETRY_SECONDS', 5),
+        'warmup_timeout_seconds' => env('DOCCARIO_API_WARMUP_TIMEOUT_SECONDS', 15),
+        'awake_check_timeout_seconds' => env('DOCCARIO_API_AWAKE_CHECK_TIMEOUT_SECONDS', 3),
+        'request_timeout_seconds' => env('DOCCARIO_API_REQUEST_TIMEOUT_SECONDS', 30),
     ],
 
 ];

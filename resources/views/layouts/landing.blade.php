@@ -18,7 +18,8 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 </head>
 
-<body class="d-flex flex-column min-vh-100 overflow-x-hidden">
+<body class="d-flex flex-column min-vh-100 overflow-x-hidden" data-warm-api="true">
+    @include('components.api-wakeup-overlay')
     @include('components.notifications')
     @yield('content')
 </body>
