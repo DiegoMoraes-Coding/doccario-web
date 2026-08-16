@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Cookie;
@@ -26,7 +27,7 @@ class ApiClient
     }
 
     /**
-     * Quick check — returns true when the API accepts connections.
+     * Quick check — returns true when the API is actually responding (not Render's 502/503 splash).
      */
     public static function isAwake(): bool
     {
@@ -37,15 +38,17 @@ class ApiClient
         }
 
         $timeout = (int) config('services.doccario_api.awake_check_timeout_seconds', 3);
+        $healthPath = (string) config('services.doccario_api.health_path', '');
+        $url = $baseUrl . ($healthPath !== '' ? $healthPath : '');
 
         try {
-            Http::timeout($timeout)
+            $response = Http::timeout($timeout)
                 ->withHeaders(self::browserHeaders())
-                ->get($baseUrl);
+                ->get($url);
 
-            return true;
-        } catch (\Throwable $e) {
-            return ! self::isConnectionError($e);
+            return self::isReadyResponse($response);
+        } catch (\Throwable) {
+            return false;
         }
     }
 
@@ -111,6 +114,10 @@ class ApiClient
             abort(503, 'Our service is starting up. Please try again in a moment.');
         }
 
+        if (self::shouldRetryResponse($response)) {
+            abort(503, 'Our service is starting up. Please try again in a moment.');
+        }
+
         if ($response->status() === 401 && $refreshToken) {
             $refreshUrl = $baseUrl . '/auth/refresh';
 
@@ -138,21 +145,64 @@ class ApiClient
         return $response;
     }
 
-    private static function requestWithRetry(string $method, string $url, array $data, ?string $token)
+    private static function requestWithRetry(string $method, string $url, array $data, ?string $token): Response
     {
-        try {
-            return self::makeRequest($method, $url, $data, $token);
-        } catch (\Throwable $e) {
-            if (! self::isConnectionError($e)) {
-                throw $e;
+        $maxAttempts = (int) config('services.doccario_api.warmup_max_attempts', 15);
+        $retrySeconds = (int) config('services.doccario_api.warmup_retry_seconds', 5);
+
+        set_time_limit(($maxAttempts * $retrySeconds) + 60);
+
+        self::wakeUp(self::baseUrl());
+
+        $lastResponse = null;
+        $lastException = null;
+
+        for ($attempt = 1; $attempt <= $maxAttempts; $attempt++) {
+            try {
+                $response = self::makeRequest($method, $url, $data, $token);
+
+                if (! self::shouldRetryResponse($response)) {
+                    return $response;
+                }
+
+                $lastResponse = $response;
+            } catch (\Throwable $e) {
+                if (! self::isConnectionError($e)) {
+                    throw $e;
+                }
+
+                $lastException = $e;
+            }
+
+            if ($attempt === $maxAttempts) {
+                break;
+            }
+
+            sleep($retrySeconds);
+
+            if ($attempt % 3 === 0) {
+                self::wakeUp(self::baseUrl());
             }
         }
 
-        if (! self::waitUntilAwake()) {
-            throw new ConnectionException('Unable to reach the API.');
+        if ($lastResponse !== null) {
+            return $lastResponse;
         }
 
-        return self::makeRequest($method, $url, $data, $token);
+        throw $lastException ?? new ConnectionException('Unable to reach the API.');
+    }
+
+    private static function isReadyResponse(Response $response): bool
+    {
+        $status = $response->status();
+
+        // Render's cold-start proxy returns 502/503 before the app is actually up.
+        return $status >= 200 && $status < 500;
+    }
+
+    private static function shouldRetryResponse(Response $response): bool
+    {
+        return in_array($response->status(), [502, 503, 504], true);
     }
 
     private static function wakeUp(string $baseUrl): void
@@ -203,7 +253,7 @@ class ApiClient
         Cookie::queue(Cookie::forget('doccario_user'));
     }
 
-    private static function makeRequest(string $method, string $url, array $data, ?string $token)
+    private static function makeRequest(string $method, string $url, array $data, ?string $token): Response
     {
         $timeout = (int) config('services.doccario_api.request_timeout_seconds', 30);
 

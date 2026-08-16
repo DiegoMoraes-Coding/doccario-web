@@ -41,6 +41,7 @@ return [
         'warmup_retry_seconds' => env('DOCCARIO_API_WARMUP_RETRY_SECONDS', 5),
         'warmup_timeout_seconds' => env('DOCCARIO_API_WARMUP_TIMEOUT_SECONDS', 15),
         'awake_check_timeout_seconds' => env('DOCCARIO_API_AWAKE_CHECK_TIMEOUT_SECONDS', 3),
+        'health_path' => env('DOCCARIO_API_HEALTH_PATH', ''),
         'request_timeout_seconds' => env('DOCCARIO_API_REQUEST_TIMEOUT_SECONDS', 30),
     ],
 
